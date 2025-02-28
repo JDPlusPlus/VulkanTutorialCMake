@@ -7,6 +7,6 @@
 ## Building the Project
 Building this project is relatively simple.
 ```
-cmake ..
-cmake --build .
+cmake . -B bin
+cmake --build bin
 ```
