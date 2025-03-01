@@ -6,6 +6,8 @@
 
 [CMake](https://cmake.org/)
 
+[Git](https://git-scm.com/)
+
 A C++ Compiler
 
 ## Building the Project
