@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.00) # You can change this if you wish
 project(VulkanTutorialCMake)
 include(FetchContent)
 find_package(Vulkan REQUIRED)

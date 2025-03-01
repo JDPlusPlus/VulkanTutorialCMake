@@ -3,6 +3,7 @@
 
 ## Dependencies
 [Vulkan SDK](https://www.vulkan.org/)
+[CMake](https://cmake.org/)
 
 ## Building the Project
 Building this project is relatively simple.
