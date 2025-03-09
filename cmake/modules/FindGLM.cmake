@@ -1,49 +1,57 @@
-# Locate the glfw3 library
+# FindGLM - attempts to locate the glm matrix/vector library.
 #
-# This module defines the following variables:
+# This module defines the following variables (on success):
+# GLM_INCLUDE_DIRS - where to find glm/glm.hpp
+# GLM_FOUND - if the library was successfully located
 #
-# GLFW3_LIBRARY the name of the library;
-# GLFW3_INCLUDE_DIR where to find glfw include files.
-# GLFW3_FOUND true if both the GLFW3_LIBRARY and GLFW3_INCLUDE_DIR have been found.
+# It is trying a few standard installation locations, but can be customized
+# with the following variables:
+# GLM_ROOT_DIR - root directory of a glm installation
+# Headers are expected to be found in either:
+# <GLM_ROOT_DIR>/glm/glm.hpp OR
+# <GLM_ROOT_DIR>/include/glm/glm.hpp
+# This variable can either be a cmake or environment
+# variable. Note however that changing the value
+# of the environment variable will NOT result in
+# re-running the header search and therefore NOT
+# adjust the variables set by this module.
+#=============================================================================
+# Copyright 2012 Carsten Neumann
 #
-# To help locate the library and include file, you can define a
-# variable called GLFW3_ROOT which points to the root of the glfw library
-# installation.
+# Distributed under the OSI-approved BSD License (the "License");
+# see accompanying file Copyright.txt for details.
 #
+# This software is distributed WITHOUT ANY WARRANTY; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the License for more information.
+#=============================================================================
+# (To distribute this file outside of CMake, substitute the full
+# License text for the above reference.)
 # default search dirs
-#
-# Cmake file from: https://github.com/daw42/glslcookbook
 
-set( _glfw3_HEADER_SEARCH_DIRS
+SET(_glm_HEADER_SEARCH_DIRS
         "/usr/include"
         "/usr/local/include"
         "${CMAKE_SOURCE_DIR}/includes"
-        "C:/Program Files (x86)/glfw/include" )
-set( _glfw3_LIB_SEARCH_DIRS
-        "/usr/lib"
-        "/usr/local/lib"
-        "${CMAKE_SOURCE_DIR}/lib"
-        "C:/Program Files (x86)/glfw/lib-msvc110" )
-
-# Check environment for root search directory
-set( _glfw3_ENV_ROOT $ENV{GLFW3_ROOT} )
-if( NOT GLFW3_ROOT AND _glfw3_ENV_ROOT )
-    set(GLFW3_ROOT ${_glfw3_ENV_ROOT} )
-endif()
-
-# Put user specified location at beginning of search
-if( GLFW3_ROOT )
-    list( INSERT _glfw3_HEADER_SEARCH_DIRS 0 "${GLFW3_ROOT}/include" )
-    list( INSERT _glfw3_LIB_SEARCH_DIRS 0 "${GLFW3_ROOT}/lib" )
-endif()
-
-# Search for the header
-FIND_PATH(GLFW3_INCLUDE_DIR "GLFW/glfw3.h"
-        PATHS ${_glfw3_HEADER_SEARCH_DIRS} )
-
-# Search for the library
-FIND_LIBRARY(GLFW3_LIBRARY NAMES glfw3 glfw
-        PATHS ${_glfw3_LIB_SEARCH_DIRS} )
+        "C:/Program Files (x86)/glm" )
+# check environment variable
+SET(_glm_ENV_ROOT_DIR "$ENV{GLM_ROOT_DIR}")
+IF(NOT GLM_ROOT_DIR AND _glm_ENV_ROOT_DIR)
+    SET(GLM_ROOT_DIR "${_glm_ENV_ROOT_DIR}")
+ENDIF(NOT GLM_ROOT_DIR AND _glm_ENV_ROOT_DIR)
+# put user specified location at beginning of search
+IF(GLM_ROOT_DIR)
+    SET(_glm_HEADER_SEARCH_DIRS "${GLM_ROOT_DIR}"
+            "${GLM_ROOT_DIR}/include"
+            ${_glm_HEADER_SEARCH_DIRS})
+ENDIF(GLM_ROOT_DIR)
+# locate header
+FIND_PATH(GLM_INCLUDE_DIR "glm/glm.hpp"
+        PATHS ${_glm_HEADER_SEARCH_DIRS})
 INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(GLFW3 DEFAULT_MSG
-        GLFW3_LIBRARY GLFW3_INCLUDE_DIR)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(GLM DEFAULT_MSG
+        GLM_INCLUDE_DIR)
+IF(GLM_FOUND)
+    SET(GLM_INCLUDE_DIRS "${GLM_INCLUDE_DIR}")
+    MESSAGE(STATUS "GLM_INCLUDE_DIR = ${GLM_INCLUDE_DIR}")
+ENDIF(GLM_FOUND)
