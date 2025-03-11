@@ -1,3 +1,5 @@
 /external/
 /.idea/
 /bin/
+/build/
+/cmake*/
